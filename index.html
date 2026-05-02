@@ -228,6 +228,7 @@
             <button onclick="sugerirCancion()" class="silver-btn text-xs mb-4">Sugerir Canción</button>
             
             <div id="playlist" class="playlist-container">
+                <p class="text-gray-600 italic text-center text-xs" id="empty-msg">No hay sugerencias todavía...</p>
             </div>
         </div>
     </section>
@@ -254,6 +255,18 @@
 
             <p class="text-2xl font-light tracking-[0.4em] text-white">ELEGANTE</p>
             <p class="text-gray-500 mt-10 text-xs italic">Gracias por acompañarme en esta noche mágica.</p>
+        </div>
+    </section>
+
+    <!-- HOJA 7: REGALOS -->
+    <section class="page">
+        <div class="glass-card">
+            <h3 class="font-title text-xl silver-text mb-4 tracking-widest">REGALOS</h3>
+            <p class="text-gray-400 text-sm mb-8 leading-relaxed">
+                El mejor regalo es tu presencia en este día tan especial.<br>
+                Pero si deseás hacerme un presente, podés dejarlo en el cofre que habrá en la entrada del salón, o realizar una transferencia.
+            </p>
+            <button onclick="mostrarDatosBancarios()" class="silver-btn text-xs">Ver Datos Bancarios</button>
         </div>
     </section>
 
@@ -342,7 +355,12 @@
         }
 
         function sugerirCancion() {
-            window.open("https://open.spotify.com/playlist/70WmmGj0S3jRzlbF6fZ4Kb?si=5d0a5cef78ed4012&pt=ec6d3ed0679d04083f36643fb1f2f687", "_blank");
+            const song = prompt("Nombre de la canción y artista:");
+            if (song && song.trim() !== "") {
+                songs.push(song);
+                updatePlaylistUI();
+                showModal("¡Genial!", "Anotamos <b>" + song + "</b> en la lista de temas.");
+            }
         }
 
         function restriccionAlimentaria() {
@@ -354,6 +372,46 @@
                     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
                 }, 1500);
             }
+        }
+
+        function mostrarDatosBancarios() {
+            const alias = "mokadeem";
+            const cbu = "0140443603630554849872";
+            const modalHtml = `
+                <div class="text-left bg-black/30 p-4 rounded mt-2 mb-4 border border-gray-700">
+                    <p class="text-xs text-gray-400 mb-1">Alias:</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-white font-semibold tracking-wider text-sm">${alias}</p>
+                        <button onclick="copiarPortapapeles('${alias}', this)" class="text-[10px] bg-gray-800 px-3 py-1.5 rounded text-gray-300 hover:text-white border border-gray-600 transition-colors">Copiar</button>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-1">CBU:</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-white font-semibold tracking-wider break-all text-sm">${cbu}</p>
+                        <button onclick="copiarPortapapeles('${cbu}', this)" class="text-[10px] bg-gray-800 px-3 py-1.5 rounded text-gray-300 hover:text-white border border-gray-600 ml-2 transition-colors">Copiar</button>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 italic mb-2">¡Muchas gracias!</p>
+            `;
+            showModal("Datos Bancarios", modalHtml);
+        }
+
+        function copiarPortapapeles(texto, btnElement) {
+            const tempInput = document.createElement("input");
+            tempInput.value = texto;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            // Cambiar el texto del botón temporalmente para dar feedback visual
+            const originalText = btnElement.innerText;
+            btnElement.innerText = "¡Copiado!";
+            btnElement.classList.add("text-white", "border-white");
+            
+            setTimeout(() => {
+                btnElement.innerText = originalText;
+                btnElement.classList.remove("text-white", "border-white");
+            }, 2000);
         }
     </script>
 </body>
