@@ -362,16 +362,11 @@
         }
 
         function comoLlegar() {
-            window.open("http://maps.google.com/?q=Santa+Cruz+1304+Olavarria", "_blank");
+            window.open("https://www.google.com/maps/search/?api=1&query=Santa+Cruz+1304+Salon+New+Summer", "_blank");
         }
 
         function sugerirCancion() {
-            const song = prompt("Nombre de la canción y artista:");
-            if (song && song.trim() !== "") {
-                songs.push(song);
-                updatePlaylistUI();
-                showModal("¡Genial!", "Anotamos <b>" + song + "</b> en la lista de temas.");
-            }
+            window.open("https://open.spotify.com/playlist/70WmmGj0S3jRzlbF6fZ4Kb?si=5d0a5cef78ed4012&pt=ec6d3ed0679d04083f36643fb1f2f687", "_blank");
         }
 
         function restriccionAlimentaria() {
